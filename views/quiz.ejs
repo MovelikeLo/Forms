@@ -5,12 +5,17 @@
 </head>
 <body>
     <% 
+        let questionCount = locals.totalQuestions ?? 0;
+        let score = locals.totalCorrect ?? 0;
         let randomIndex = parseInt(Math.random() * chosenWords.length);
         let chosenWord = chosenWords[randomIndex];
         let [correctWord, correctPart, correctDefinition] = chosenWord.split('\t');
 
-        %>
-    <h1>Word Quiz</h1>
+    %>
+    <% if (questionCount > 0) { %>
+        <h1>Score: <%= score %> / <%= questionCount %></h1>
+    <% } %>
+    
     <h2><%= correctWord %> - <%= correctPart %></h2>
     <form action="quiz" method="POST">
     <ol>
@@ -23,6 +28,8 @@
     </ol>
     <input type="submit" value="Submit">
     <input type="hidden" name="correctDefinition" value="<%= correctDefinition %>">
+    <input type="hidden" name="totalQuestions" value="<%= questionCount %>">
+    <input type="hidden" name="totalCorrect" value="<%= score %>">
     </form>
 </body>
 </html>
