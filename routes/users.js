@@ -31,6 +31,8 @@ router.get('/new',(req,res)=>{
 router.route('/:id').get((req, res)=>{
     console.log(req.user);
     console.log('Getting User data for id');
+    
+    
 res.send(`Getting User data for id: ${req.params.id}`);
 }).delete((req, res)=>{
 res.send(`Deleting User data for id: ${req.params.id}`);
