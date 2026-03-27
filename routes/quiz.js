@@ -6,8 +6,7 @@ const {readFile} = require('fs').promises;
 
 router.get('/',async(req,res)=>{
     let chosenWords = await getWords();
-
-    console
+    res.render('quiz',{chosenWords});
 });
 router.post('/',(req,res)=>{
     console.log(req.body);
@@ -21,21 +20,31 @@ router.post('/',(req,res)=>{
 let getWords = async () => {
     console.log('Getting Random Part');
     let randomPart = getRandomPart();
+    console.log('Random Part:', randomPart);
     let allWords = await readFile('resources/allwords.txt','utf-8');
     let wordArray = allWords.split('\n');
+    // console.log(wordArray)
     shuffleArray(wordArray);
 
     let choices = [];
     while(choices.length < 5){
+        // console.log("Word Array:", wordArray);
         let line = wordArray.pop();
-        let [word,part] = line.split('\t');
+        // console.log('Line:', line);
+        let [word,part, def] = line.split('\t');
+        console.log('Part:', part); 
         if(part === randomPart){
+            console.log("Parts match, adding to list of choices");
             choices.push(line);
+        
+        }
+        else{
+            console.log("Parts do not match, skipping");
         }
     }
     return choices;
 };
-let getRandomPart = async () => {
+let getRandomPart = () => {
     let parts = ['noun','verb','adjective'];
     let randomIndex = Math.floor(Math.random() * parts.length);
     let randompart = parts[randomIndex];
