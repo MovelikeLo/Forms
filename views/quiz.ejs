@@ -20,7 +20,7 @@
         <h1><color style="color: green;">That was Correct!</h1>
     <% } else if (locals.wasCorrect === false) { %>
         <h1><color style="color: red;">That was wrong!</h1></color>
-        <h2>The correct answer was: <%= correctDefinition %></h2>
+        <h2>The correct answer was: <%= locals.correctDefinition %></h2>
     <% } %>
     
     <h2><%= correctWord %> - <%= correctPart %></h2>
