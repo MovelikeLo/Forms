@@ -5,15 +5,22 @@
 </head>
 <body>
     <% 
-        let questionCount = locals.totalQuestions ?? 0;
-        let score = locals.totalCorrect ?? 0;
+        let questionCount = locals.total ?? 0;
+        let score = locals.score ?? 0;
         let randomIndex = parseInt(Math.random() * chosenWords.length);
         let chosenWord = chosenWords[randomIndex];
         let [correctWord, correctPart, correctDefinition] = chosenWord.split('\t');
 
     %>
-    <% if (questionCount > 0) { %>
+    <% if (questionCount !== 0) { %>
         <h1>Score: <%= score %> / <%= questionCount %></h1>
+    <% } %>
+
+    <% if (locals.wasCorrect === true) { %>
+        <h1><color style="color: green;">That was Correct!</h1>
+    <% } else if (locals.wasCorrect === false) { %>
+        <h1><color style="color: red;">That was wrong!</h1></color>
+        <h2>The correct answer was: <%= correctDefinition %></h2>
     <% } %>
     
     <h2><%= correctWord %> - <%= correctPart %></h2>
@@ -31,5 +38,6 @@
     <input type="hidden" name="totalQuestions" value="<%= questionCount %>">
     <input type="hidden" name="totalCorrect" value="<%= score %>">
     </form>
+    
 </body>
 </html>

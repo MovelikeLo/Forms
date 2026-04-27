@@ -6,16 +6,26 @@ const {readFile} = require('fs').promises;
 
 router.get('/',async(req,res)=>{
     let chosenWords = await getWords();
+    console.log('Chosen Words:', chosenWords);
     res.render('quiz',{chosenWords});
 });
-router.post('/',(req,res)=>{
+router.post('/',async (req,res)=>{
+    let chosenWords = await getWords();
     console.log(req.body);
     let {userChoice, correctDefinition, totalQuestions, totalCorrect} = req.body;
+    let score = totalCorrect;
+    let wasCorrect = false;
     if(userChoice === correctDefinition){
         console.log('Correct!');
-        let score = parseInt(totalCorrect) + 1;
+         score++;
+         wasCorrect = true;
     }
     let total = parseInt(totalQuestions) + 1;
+    //let total = totalQuestions;
+    console.log('Chosen Words:', chosenWords);
+    res.render('quiz',{chosenWords, score, total, wasCorrect,correctDefinition});
+    //res.redirect('/quiz');
+
 });
 let getWords = async () => {
     console.log('Getting Random Part');
@@ -56,6 +66,7 @@ let shuffleArray = (array) => {
         [array[i], array[randomNumber]] = [array[randomNumber], array[i]];
     }
 };
+
 
 
 module.exports = router;
